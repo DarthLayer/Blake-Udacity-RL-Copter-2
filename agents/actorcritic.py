@@ -33,12 +33,16 @@ class Actor:
         states = layers.Input(shape=(self.state_size,), name='states')
 
         # Add hidden layers
-        net = layers.Dense(units=256,kernel_regularizer=layers.regularizers.l2(1e-6))(states)
+        net = layers.Dense(units=1000,kernel_regularizer=layers.regularizers.l2(1e-6))(states)
         net = layers.BatchNormalization()(net)
         net = layers.Activation("relu")(net)
-        net = layers.Dense(units=128,kernel_regularizer=layers.regularizers.l2(1e-6))(net)
+        net = layers.Dense(units=500,kernel_regularizer=layers.regularizers.l2(1e-6))(net)
         net = layers.BatchNormalization()(net)
         net = layers.Activation("relu")(net)
+        net = layers.Dense(units=250,kernel_regularizer=layers.regularizers.l2(1e-6))(states)
+        net = layers.BatchNormalization()(net)
+        net = layers.Activation("relu")(net)
+        
 
         # Add final output layer with sigmoid activation
         raw_actions = layers.Dense(units=self.action_size, activation='sigmoid',
@@ -85,14 +89,14 @@ class Critic:
         actions = layers.Input(shape=(self.action_size,), name='actions')
 
         # Add hidden layer(s) for state pathway
-        net_states = layers.Dense(units=256,kernel_regularizer=layers.regularizers.l2(1e-6))(states)
+        net_states = layers.Dense(units=1000,kernel_regularizer=layers.regularizers.l2(1e-6))(states)
         net_states = layers.BatchNormalization()(net_states)
         net_states = layers.Activation("relu")(net_states)
 
-        net_states = layers.Dense(units=128, kernel_regularizer=layers.regularizers.l2(1e-6))(net_states)
+        net_states = layers.Dense(units=500, kernel_regularizer=layers.regularizers.l2(1e-6))(net_states)
 
         # Add hidden layer(s) for action pathway
-        net_actions = layers.Dense(units=128,kernel_regularizer=layers.regularizers.l2(1e-6))(actions)
+        net_actions = layers.Dense(units=500,kernel_regularizer=layers.regularizers.l2(1e-6))(actions)
 
         # Combine state and action pathways
         net = layers.Add()([net_states, net_actions])
