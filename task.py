@@ -75,7 +75,7 @@ class Takeoff(Task):
     
     def get_reward(self):
         """Uses current pose of sim to return reward. Utilises hyperbolic tan function to restrict values to -1 and 1."""
-        reward = np.tanh(1-0.003*(abs(self.sim.pose[:3] - self.target_pos))).sum()
+        reward = np.tanh(1-0.005*(abs(self.sim.pose[:3] - self.target_pos))).sum()
         return reward
     
     def step(self, rotor_speeds):
@@ -123,7 +123,7 @@ class Recovery():
 
     def get_reward(self):
         """Uses current pose of sim to return reward."""
-        reward = np.tanh(1-0.003*(abs(self.sim.pose[:3] - self.target_pos))).sum()
+        reward = np.tanh(1-0.005*(abs(self.sim.pose[:3] - self.target_pos))).sum()
         return reward
     
     def step(self, rotor_speeds):
